@@ -39,7 +39,7 @@ export default function RainbowNavItem({ href }: { href: string }) {
       setTimeout(() => el.remove(), 700);
     };
 
-    const interval = setInterval(addSparkle, 300);
+    const interval = setInterval(addSparkle, 500);
     return () => clearInterval(interval);
   }, []);
 
@@ -50,7 +50,7 @@ export default function RainbowNavItem({ href }: { href: string }) {
       className="relative inline-block select-none"
       style={{ textDecoration: "none" }}
     >
-      <span className="rainbow-text">금향포도</span>
+      <span className="rainbow-text-animated">금향포도</span>
     </Link>
   );
 }

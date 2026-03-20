@@ -20,7 +20,7 @@ function MarqueeContent() {
   return (
     <span className="text-[28px] md:text-[68px]" style={{ paddingRight: "3rem", whiteSpace: "nowrap", textShadow }}>
       {BEFORE}
-      <span className="rainbow-text" style={{ textShadow: "none" }}>{RAINBOW}</span>
+      <span className="rainbow-text-static" style={{ textShadow: "none" }}>{RAINBOW}</span>
       {AFTER}
     </span>
   );

@@ -34,10 +34,10 @@ body {
   animation: marquee 28s linear infinite;
 }
 
-/* 금향포도 무지개 효과 — GPU 가속 (filter만 변경) */
+/* 금향포도 헤더 — 단색 + hue-rotate (진짜 GPU 합성) */
 @keyframes hue-spin {
-  from { filter: hue-rotate(0deg) drop-shadow(0 0 6px rgba(180, 0, 255, 0.45)); }
-  to   { filter: hue-rotate(360deg) drop-shadow(0 0 6px rgba(180, 0, 255, 0.45)); }
+  from { filter: hue-rotate(0deg); }
+  to   { filter: hue-rotate(360deg); }
 }
 
 @keyframes sparkle-pop {
@@ -46,13 +46,21 @@ body {
   100% { opacity: 0; transform: translate(-50%, -170%) scale(0.8); }
 }
 
-.rainbow-text {
-  background: linear-gradient(90deg, #ff0080, #ff4500, #ffd700, #00e676, #00bcd4, #7c4dff, #ff0080);
+/* 헤더용: 애니메이션 있음 */
+.rainbow-text-animated {
+  color: #ff0080;
+  font-weight: 700;
+  display: inline-block;
+  animation: hue-spin 2s linear infinite;
+  will-change: filter;
+}
+
+/* 마퀴용: 정적 그라디언트, 애니메이션 없음 */
+.rainbow-text-static {
+  background: linear-gradient(90deg, #ff0080, #ff4500, #ffd700, #00e676, #00bcd4, #7c4dff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: 700;
   display: inline-block;
-  animation: hue-spin 2s linear infinite;
-  will-change: filter;
 }
