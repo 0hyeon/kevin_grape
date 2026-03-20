@@ -11,11 +11,11 @@ const SPRING = { stiffness: 80, damping: 20, restDelta: 0.001 };
 const pictures = [
   { src: "/images/parell_1.jpeg", scaleEnd: 4, style: { width: "25vw",  height: "25vh" } },
   { src: "/images/parell_2.jpeg", scaleEnd: 5, style: { top: "-30vh",  left: "5vw",     width: "35vw", height: "30vh" } },
-  { src: "/images/parell_3.jpeg", scaleEnd: 6, style: { top: "-10vh",  left: "-25vw",   width: "20vw", height: "45vh" } },
+  { src: "/images/parell_3.jpg",  scaleEnd: 6, style: { top: "-10vh",  left: "-25vw",   width: "20vw", height: "45vh" } },
   { src: "/images/parell_4.jpeg", scaleEnd: 5, style: {                left: "27.5vw",  width: "25vw", height: "25vh" } },
   { src: "/images/parell_5.jpeg", scaleEnd: 6, style: { top: "27.5vh", left: "5vw",     width: "20vw", height: "25vh" } },
   { src: "/images/parell_6.jpeg", scaleEnd: 8, style: { top: "27.5vh", left: "-22.5vw", width: "30vw", height: "25vh" } },
-  { src: "/images/parell_7.jpeg", scaleEnd: 9, style: { top: "22.5vh", left: "25vw",    width: "15vw", height: "15vh" } },
+  { src: "/images/parell_8.jpeg", scaleEnd: 9, style: { top: "22.5vh", left: "25vw",    width: "15vw", height: "15vh" } },
 ];
 
 // 모바일: 화면 좁으므로 3장만, 중앙 정렬 + 세로 분산 배치
