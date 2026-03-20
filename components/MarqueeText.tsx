@@ -15,15 +15,15 @@ const textShadow =
 const TEXT =
   "Kevin Grape ✦ 슈팅스타포도 ✦ 금향포도 ✦ 샤인머스켓 ✦ 안성머루포도 ✦ ";
 
-function MarqueeContent({ fontSize }: { fontSize: number }) {
+function MarqueeContent() {
   return (
-    <span style={{ fontSize, paddingRight: "3rem", whiteSpace: "nowrap", textShadow }}>
+    <span className="text-[28px] md:text-[68px]" style={{ paddingRight: "3rem", whiteSpace: "nowrap", textShadow }}>
       {TEXT}
     </span>
   );
 }
 
-function MarqueeTrack({ fontSize }: { fontSize: number }) {
+function MarqueeTrack() {
   const trackRef = useRef<HTMLDivElement>(null);
   const lastScrollY = useRef(0);
 
@@ -46,9 +46,9 @@ function MarqueeTrack({ fontSize }: { fontSize: number }) {
       className={`marquee-track ${blackHanSans.className}`}
       style={{ willChange: "transform" }}
     >
-      <MarqueeContent fontSize={fontSize} />
+      <MarqueeContent />
       <span aria-hidden="true">
-        <MarqueeContent fontSize={fontSize} />
+        <MarqueeContent />
       </span>
     </div>
   );
@@ -57,11 +57,8 @@ function MarqueeTrack({ fontSize }: { fontSize: number }) {
 export default function MarqueeText() {
   return (
     <div className="overflow-hidden select-none bg-white border-y border-gray-100">
-      <div className="hidden md:block py-6">
-        <MarqueeTrack fontSize={68} />
-      </div>
-      <div className="block md:hidden py-4">
-        <MarqueeTrack fontSize={28} />
+      <div className="py-4 md:py-6">
+        <MarqueeTrack />
       </div>
     </div>
   );
