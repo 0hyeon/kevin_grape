@@ -111,13 +111,13 @@ export default function Header({ cartcount }:any) {
         ) : (
           <>
             <div>
-              <RainbowNavItem href="/productlist/lame" />
+              <RainbowNavItem href="/products/2" />
             </div>
             <div>
-              <Link href={"/productlist/eunbak"}>슈팅스타포도</Link>
+              <Link href={"/products/1"}>슈팅스타포도</Link>
             </div>
             <div>
-              <Link href={"/productlist/aircap"}>샤인머스켓</Link>
+              <Link href={"/products/3"}>샤인머스켓</Link>
             </div>
             <div
               className="cursor-pointer"

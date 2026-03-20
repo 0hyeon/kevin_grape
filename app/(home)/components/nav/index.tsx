@@ -25,18 +25,18 @@ const links = [
   //   src: "home.png",
   // },
   {
-    title: "에어캡봉투",
-    href: "/productlist/aircap",
+    title: "금향포도",
+    href: "/products/2",
     src: "lookbook.png",
   },
   {
-    title: "보냉봉투",
-    href: "/productlist/eunbak",
+    title: "슈팅스타포도",
+    href: "/products/1",
     src: "contact.png",
   },
   {
-    title: "라미봉투",
-    href: "/productlist/lame",
+    title: "샤인머스켓",
+    href: "/products/3",
     src: "contact.png",
   },
 ];
