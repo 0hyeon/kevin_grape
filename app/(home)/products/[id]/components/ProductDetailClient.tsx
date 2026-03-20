@@ -168,11 +168,11 @@ const ProductDetailClient = ({ product, params }: ProductDetailClientProps) => {
 
       {/* 상세 이미지 */}
       {detailImages.map((src, idx) => (
-        <div key={idx} className="relative w-full mx-auto">
+        <div key={idx} className="relative w-full md:max-w-[700px] mx-auto">
           <Image
             src={src}
             alt={`상세페이지 ${idx + 1}`}
-            width={1200}
+            width={700}
             height={0}
             style={{ width: "100%", height: "auto" }}
             className="object-contain"
