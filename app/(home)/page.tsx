@@ -11,12 +11,6 @@ import { slideData } from "@/static/data";
 import { getCachedProducts } from "./products/[id]/page";
 import Youtube from "@/components/Youtube";
 import MarqueeText from "@/components/MarqueeText";
-import dynamic from "next/dynamic";
-
-// ZoomParallax: 스크롤해야 보이는 컴포넌트 → 초기 번들에서 분리해 첫 로딩 속도 개선
-const ZoomParallax = dynamic(() => import("@/components/ZoomParallax"), {
-  loading: () => <div style={{ height: "300vh" }} />, // 레이아웃 유지용 placeholder
-});
 
 export default async function Home() {
   const items = await getCachedProducts();
@@ -26,8 +20,7 @@ export default async function Home() {
       <main>
         <Slide />
         <MarqueeText />
-        <ZoomParallax />
-        <div className="max-w-[1000px] mx-auto my-0 px-4 sm:px-6 lg:px-8">
+<div className="max-w-[1000px] mx-auto my-0 px-4 sm:px-6 lg:px-8">
           <SlideSmall />
           {/* <Best data={slideData} /> */}
           <BestItem data={items} subtitle="all" title="전체상품" />
