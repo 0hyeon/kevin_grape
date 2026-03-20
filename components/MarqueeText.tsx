@@ -76,19 +76,33 @@ function MarqueeContent() {
 
 function MarqueeTrack() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const animRef = useRef<Animation | null>(null);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
+
+    // CSS 애니메이션 제거 후 WAAPI로 제어
+    el.style.animation = "none";
+    animRef.current = el.animate(
+      [{ transform: "translateX(0)" }, { transform: "translateX(-50%)" }],
+      { duration: 28000, iterations: Infinity }
+    );
+
     const handleScroll = () => {
       const y = window.scrollY;
-      el.style.animationDirection =
-        y > lastScrollY.current ? "normal" : "reverse";
+      if (animRef.current) {
+        animRef.current.playbackRate = y > lastScrollY.current ? 1 : -1;
+      }
       lastScrollY.current = y;
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      animRef.current?.cancel();
+    };
   }, []);
 
   return (

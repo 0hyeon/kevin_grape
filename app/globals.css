@@ -31,7 +31,6 @@ body {
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 28s linear infinite;
 }
 
 /* 금향포도 헤더 — 단색 + hue-rotate (진짜 GPU 합성) */
