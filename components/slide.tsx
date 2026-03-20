@@ -38,27 +38,19 @@ export default function Slide() {
     swiper?.slideNext()
   }
   SwiperCore.use([Navigation, Scrollbar, Autoplay, Pagination])
-  const pagination = {
-    clickable: true,
-    renderBullet: function (index: number, className: string) {
-      return (
-        '<span class=" navi-wrap ' + className + '">' + (index + 1) + '</span>'
-      )
-    },
-  }
   const slideData = [
     {
       id: 1,
       text: 'kevin',
       src: '/images/gumhang_pc.jpg',
       href: '/productlist/eunbak',
-      mobileSrc: '/gumhang_mo.jpg',
+      mobileSrc: '/images/gumhang_mo.jpg',
     },
     {
       id: 2,
       src: '/images/shooting_pc.jpg',
       href: '/productlist/eunbak',
-      mobileSrc: '/shooting_mo.jpg',
+      mobileSrc: '/images/shooting_mo.jpg',
     }
   ]
   return (
