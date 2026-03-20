@@ -1,4 +1,4 @@
-// "use server"; // 페이지 파일엔 불필요 — App Router 서버 컴포넌트는 기본값이 server
+"use server";
 import db from "@/lib/db";
 import { notFound } from "next/navigation";
 import { unstable_cache as nextCache, revalidateTag } from "next/cache";
@@ -83,13 +83,12 @@ export async function getProducts() {
   return product;
 }
 
-// 빌드 시 DB 접근 불가 → 런타임 동적 생성으로 전환 (dynamicParams = true)
+// 빌드 시 DB 접근 불가 → 빈 배열 반환 (dynamicParams는 Next.js 기본값 true라 선언 불필요)
 export async function generateStaticParams() {
   // const products = await getProducts();
   // return products.map((product) => ({ id: String(product.id) }));
   return [];
 }
-export const dynamicParams = true;
 
 export default async function ProductDetail({
   params,
