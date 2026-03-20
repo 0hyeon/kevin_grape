@@ -7,20 +7,22 @@ import Image from "next/image";
 // 스프링 설정 — 스크롤 값에 댐핑을 줘서 부드럽게 추종
 const SPRING = { stiffness: 80, damping: 20, restDelta: 0.001 };
 
+// PC: 7장 (레퍼런스 레이아웃 그대로, parell_1~7)
 const pictures = [
-  { src: "/images/gumhang_pc.jpg",     scaleEnd: 4, style: { width: "25vw", height: "25vh" } },
-  { src: "/images/shooting_pc.jpg",    scaleEnd: 5, style: { top: "-30vh", left: "5vw",    width: "35vw", height: "30vh" } },
-  { src: "/images/middle_banner_5.jpg",scaleEnd: 6, style: { top: "-10vh", left: "-25vw",  width: "20vw", height: "45vh" } },
-  { src: "/images/gumhang_mo.jpg",     scaleEnd: 5, style: {               left: "27.5vw", width: "25vw", height: "25vh" } },
-  { src: "/images/shooting_mo.jpg",    scaleEnd: 6, style: { top: "27.5vh",left: "5vw",    width: "20vw", height: "25vh" } },
-  { src: "/images/grape_test.png",     scaleEnd: 8, style: { top: "27.5vh",left: "-22.5vw",width: "30vw", height: "25vh" } },
-  { src: "/images/middle_banner_1.png",scaleEnd: 9, style: { top: "22.5vh",left: "25vw",   width: "15vw", height: "15vh" } },
+  { src: "/images/parell_1.jpeg", scaleEnd: 4, style: { width: "25vw",  height: "25vh" } },
+  { src: "/images/parell_2.jpeg", scaleEnd: 5, style: { top: "-30vh",  left: "5vw",     width: "35vw", height: "30vh" } },
+  { src: "/images/parell_3.jpeg", scaleEnd: 6, style: { top: "-10vh",  left: "-25vw",   width: "20vw", height: "45vh" } },
+  { src: "/images/parell_4.jpeg", scaleEnd: 5, style: {                left: "27.5vw",  width: "25vw", height: "25vh" } },
+  { src: "/images/parell_5.jpeg", scaleEnd: 6, style: { top: "27.5vh", left: "5vw",     width: "20vw", height: "25vh" } },
+  { src: "/images/parell_6.jpeg", scaleEnd: 8, style: { top: "27.5vh", left: "-22.5vw", width: "30vw", height: "25vh" } },
+  { src: "/images/parell_7.jpeg", scaleEnd: 9, style: { top: "22.5vh", left: "25vw",    width: "15vw", height: "15vh" } },
 ];
 
+// 모바일: 화면 좁으므로 3장만, 중앙 정렬 + 세로 분산 배치
 const mobilePictures = [
-  { src: "/images/gumhang_pc.jpg",  scaleEnd: 4 },
-  { src: "/images/shooting_pc.jpg", scaleEnd: 6 },
-  { src: "/images/grape_test.png",  scaleEnd: 8 },
+  { src: "/images/parell_1.jpeg", scaleEnd: 4, top: "0vh",    width: "80vw", height: "35vh" },
+  { src: "/images/parell_8.jpeg", scaleEnd: 6, top: "-20vh",  width: "65vw", height: "30vh" },
+  { src: "/images/parell_4.jpeg", scaleEnd: 8, top: "20vh",   width: "55vw", height: "28vh" },
 ];
 
 export default function ZoomParallax() {
@@ -139,7 +141,7 @@ function ZoomParallaxMobile() {
           contain: "layout style",
         }}
       >
-        {mobilePictures.map(({ src }, index) => (
+        {mobilePictures.map(({ src, top, width, height }, index) => (
           <motion.div
             key={index}
             style={{
@@ -154,12 +156,12 @@ function ZoomParallaxMobile() {
               willChange: "transform",
             }}
           >
-            <div style={{ position: "relative", width: "80vw", height: "40vh" }}>
+            <div style={{ position: "relative", width, height, top }}>
               <Image
                 src={src}
                 fill
                 alt={`parallax-mo-${index}`}
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: "cover", borderRadius: "8px" }}
                 loading={index === 0 ? "eager" : "lazy"}
                 sizes="80vw"
               />

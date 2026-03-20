@@ -10,7 +10,7 @@ const blackHanSans = Black_Han_Sans({
 });
 
 const text =
-  "Kevin Grape ✦ 포장재 전문몰 ✦ 에어캡봉투 ✦ 보냉봉투 ✦ 라미봉투 ✦ ";
+  "Kevin Grape ✦ 슈팅스타포도 ✦ 금향포도 ✦ 샤인머스켓 ✦ 안성머루포도 ✦ ";
 
 const textShadow =
   "1px 1px 0 #c8c8c8, 2px 2px 0 #b8b8b8, 3px 3px 0 #a8a8a8, 4px 4px 0 #989898, 5px 5px 10px rgba(0,0,0,0.18)";
