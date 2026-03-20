@@ -10,6 +10,8 @@ import SlideSmall from "@/components/slideSmall";
 import { slideData } from "@/static/data";
 import { getCachedProducts } from "./products/[id]/page";
 import Youtube from "@/components/Youtube";
+import MarqueeText from "@/components/MarqueeText";
+import ZoomParallax from "@/components/ZoomParallax";
 
 export default async function Home() {
   const items = await getCachedProducts();
@@ -18,6 +20,8 @@ export default async function Home() {
     <>
       <main>
         <Slide />
+        <MarqueeText />
+        <ZoomParallax />
         <div className="max-w-[1000px] mx-auto my-0 px-4 sm:px-6 lg:px-8">
           <SlideSmall />
           {/* <Best data={slideData} /> */}
@@ -48,7 +52,7 @@ export default async function Home() {
             subtitle="가성비ㆍ탁월한"
             title="라미봉투"
           />
-          <Youtube url="https://youtu.be/EwqRj6SHNxg?si=Ixqv5SGzytn63ByB" />
+          <Youtube url="https://youtu.be/GUOEoal_4ok?t=5" />
           {/* <SlideSmall /> */}
         </div>
       </main>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { Scrollbar, Autoplay, Pagination } from "swiper/modules";
 import SwiperCore from "swiper";
@@ -10,8 +10,13 @@ import Image from "next/image";
 export default function SlideSmall() {
   const [swiperIndex, setSwiperIndex] = useState(0); //페이지네이션
   const [swiper, setSwiper] = useState<SwiperClass>(); //슬라이드
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   SwiperCore.use([Scrollbar, Autoplay, Pagination]);
 
+  if (!mounted) return null;
   const slideData = [
     {
       id: 1,

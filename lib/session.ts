@@ -4,9 +4,10 @@ import { cookies } from "next/headers";
 import db from "./db";
 import { redirect } from "next/navigation";
 import { SessionContent } from "./types";
-import { revalidateTag } from "next/cache";
+// import { revalidateTag } from "next/cache";
 
 // 세션을 가져오는 함수
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getSession(session: any) {
   return await getIronSession<SessionContent>(session, {
     cookieName: "delicious-aurorafac",
@@ -21,6 +22,7 @@ export default async function getSessionCarrot() {
 }
 
 // // 사용자 정보(id) 가져오기
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getUserProfile = async (session: any) => {
   // const session = await getSession();
   const user = session.id
@@ -39,6 +41,7 @@ export const getUserProfile = async (session: any) => {
 // };
 
 // // 로그인 - 사용자 정보를 암호화 후 쿠키에 저장
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const saveLoginSession = async (session: any, user: SessionContent) => {
   // const session = await getSession();
   session.id = user.user_id ?? user.id;
@@ -47,6 +50,7 @@ export const saveLoginSession = async (session: any, user: SessionContent) => {
   session.username = user.username;
   await session.save(); // 정보 암호화 후 쿠키에 저장
   // SMS 로그인이라면, 인증토큰 삭제
-  user.user_id && (await db.sMSToken.delete({ where: { id: user.id } }));
+  // user.user_id && (await db.sMSToken.delete({ where: { id: user.id } }));
+  if (user.user_id) { await db.sMSToken.delete({ where: { id: user.id } }); }
   redirect("/");
 };

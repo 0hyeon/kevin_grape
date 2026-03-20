@@ -7,7 +7,8 @@ export default function Addr({ addressData, setAddressData, state }: any) {
   const [isDaumLoaded, setIsDaumLoaded] = useState(false);
 
   const checkDaumLoaded = () => {
-    if (window.daum && window.daum.Postcode) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((window as any).daum && (window as any).daum.Postcode) {
       setIsDaumLoaded(true);
     }
   };
@@ -21,7 +22,8 @@ export default function Addr({ addressData, setAddressData, state }: any) {
 
   const onClickAddr = () => {
     if (isDaumLoaded) {
-      new window.daum.Postcode({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      new (window as any).daum.Postcode({
         oncomplete: function (data: any) {
           setAddressData({
             ...addressData,

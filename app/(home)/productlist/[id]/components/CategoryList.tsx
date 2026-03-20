@@ -32,6 +32,7 @@ const CategoryList = ({
       return numA - numB; // 오름차순 정렬
     }
   );
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [method, setMethod] = useState<any>(
     categories.length > 0 ? categories[0] : ""
   );

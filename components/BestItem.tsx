@@ -30,6 +30,7 @@ interface NullableProduct {
 export default function BestItem({ data, title, subtitle }: NullableProduct) {
   const [swiperIndex, setSwiperIndex] = useState(0); //페이지네이션
   const [isMobile, setIsMobile] = useState(false); // 모바일 여부 확인
+  const [mounted, setMounted] = useState(false);
 
   const [swiper, setSwiper] = useState<SwiperClass>(); //슬라이드
   const handlePrev = () => {
@@ -53,6 +54,7 @@ export default function BestItem({ data, title, subtitle }: NullableProduct) {
     return result;
   };
   useEffect(() => {
+    setMounted(true);
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -64,6 +66,7 @@ export default function BestItem({ data, title, subtitle }: NullableProduct) {
       window.removeEventListener("resize", handleResize); // 이벤트 제거
     };
   }, []);
+  if (!mounted) return null;
   return (
     <div className="cursor-pointer">
       <div className="flex pt-[100px] pb-[18px] items-end justify-between">

@@ -11,7 +11,7 @@ function randomInRange(min: number, max: number) {
 
 export function triggerConfetti() {
   const intervalId = setInterval(() => {
-    let timeLeft = animationEnd - Date.now();
+    const timeLeft = animationEnd - Date.now();
 
     if (timeLeft <= 0) {
       clearInterval(intervalId);

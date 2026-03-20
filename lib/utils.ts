@@ -1,5 +1,5 @@
-import db from "@/lib/db";
-import chalk from "chalk";
+// import db from "@/lib/db";
+// import chalk from "chalk";
 
 export function formatToTimeAgo(date: string): string {
   const dayInMs = 1000 * 60 * 60 * 24;

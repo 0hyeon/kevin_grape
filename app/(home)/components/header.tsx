@@ -1,16 +1,17 @@
 "use client";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { opacity } from "./anim";
 import Image from "next/image";
 import Nav from "./nav";
 
 export default function Header({ cartcount }: any) {
   const [isActive, setIsActive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
   // fetchCartCount 함수 정의
   useEffect(() => {
+    setMounted(true);
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -22,6 +23,7 @@ export default function Header({ cartcount }: any) {
       window.removeEventListener("resize", handleResize); // 이벤트 제거
     };
   }, []);
+  if (!mounted) return null;
   return (
     <div className="max-w-[1100px] my-0 mx-auto relative">
       <div className="z-20 relative bg-white md:bg-inherit flex items-center justify-center md:justify-between ">
@@ -38,20 +40,18 @@ export default function Header({ cartcount }: any) {
           /> */}
         </div>
         <Link href="/" className="">
-          <Image
-            src={`/images/kevin_logo.jpg`}
-            alt="logoImage"
-            width={300} // 기본 원본 비율 제공
-            height={100} // 기본 원본 비율 제공
-            className="w-[180px] md:w-[300px] h-auto"
-          />
+          <div>
+            <Image
+              src={`/images/kevin_logo.jpg`}
+              alt="logoImage"
+              width={300} // 기본 원본 비율 제공
+              height={100} // 기본 원본 비율 제공
+              className="w-[180px] md:w-[300px] h-auto"
+            />
+          </div>
         </Link>
         {!isMobile && (
-          <motion.div
-            variants={opacity}
-            animate={!isActive ? "open" : "closed"}
-            className="pr-2 md:pr-0 md:w-[270px] flex flex-col justify-center items-end md:static absolute right-1"
-          >
+          <div className="pr-2 md:pr-0 md:w-[270px] flex flex-col justify-center items-end md:static absolute right-1">
             <Link href={"/cart"}>
               <div className="flex gap-[10px]">
                 <svg
@@ -72,7 +72,7 @@ export default function Header({ cartcount }: any) {
                 <p className="text-sm">Cart({cartcount ? cartcount : 0})</p>
               </div>
             </Link>
-          </motion.div>
+          </div>
         )}
       </div>
       <div className="z-50 md:z-0 flex justify-end md:justify-around  text-[#111]  mr-2 md:static absolute top-[50%] right-0 -translate-y-1/2 md:-translate-y-0">

@@ -9,9 +9,14 @@ import 'swiper/css/pagination'
 import Image from 'next/image'
 import Link from 'next/link'
 export default function Slide() {
+  const [mounted, setMounted] = useState(false)
   const [swiperIndex, setSwiperIndex] = useState(0) //페이지네이션
   const [swiper, setSwiper] = useState<SwiperClass>() //슬라이드
   const [isMobile, setIsMobile] = useState(false) // 모바일 여부 확인
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     // 화면 크기를 감지하여 모바일 여부를 설정
@@ -24,6 +29,8 @@ export default function Slide() {
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  if (!mounted) return null
   const handlePrev = () => {
     swiper?.slidePrev()
   }
@@ -43,28 +50,16 @@ export default function Slide() {
     {
       id: 1,
       text: 'kevin',
-      src: '/images/kevin_banner1.jpg',
+      src: '/images/gumhang_pc.jpg',
       href: '/productlist/eunbak',
-      mobileSrc: '/kevin_banner1_m.jpg',
+      mobileSrc: '/gumhang_mo.jpg',
     },
     {
       id: 2,
-      text: 'kevin',
-      src: '/images/kevin_banner2.jpg',
-      mobileSrc: '/kevin_banner2_m.jpg',
-    },
-    // {
-    //   id: 3,
-    //   text: '오로라팩',
-    //   src: '/images/main_banner_7.png',
-    //   mobileSrc: '/images/mobile_banner2.jpeg',
-    // },
-    // {
-    //   id: 4,
-    //   text: '오로라팩',
-    //   src: '/images/main_banner1.png',
-    //   mobileSrc: '/images/mobile_banner1.png',
-    // },
+      src: '/images/shooting_pc.jpg',
+      href: '/productlist/eunbak',
+      mobileSrc: '/shooting_mo.jpg',
+    }
   ]
   return (
     <div>
@@ -89,14 +84,16 @@ export default function Slide() {
               <div className="relative w-full aspect-[375/314] flex justify-center items-center bg-gray-100">
                 {slide.href ? (
                   <Link href={`${slide.href}`}>
-                    <Image
-                      alt={String(slide.id)}
-                      src={slide.mobileSrc}
-                      fill
-                      style={{
-                        objectFit: 'contain',
-                      }}
-                    />
+                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                      <Image
+                        alt={String(slide.id)}
+                        src={slide.mobileSrc}
+                        fill
+                        style={{
+                          objectFit: 'contain',
+                        }}
+                      />
+                    </div>
                   </Link>
                 ) : (
                   <Image
@@ -114,14 +111,16 @@ export default function Slide() {
               <div className="relative w-full aspect-[16/3]">
                 {slide.href ? (
                   <Link href={`${slide.href}`}>
-                    <Image
-                      alt={String(slide.id)}
-                      src={slide.src}
-                      fill
-                      style={{
-                        objectFit: 'cover',
-                      }}
-                    />
+                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                      <Image
+                        alt={String(slide.id)}
+                        src={slide.src}
+                        fill
+                        style={{
+                          objectFit: 'cover',
+                        }}
+                      />
+                    </div>
                   </Link>
                 ) : (
                   <Image

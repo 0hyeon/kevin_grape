@@ -2,9 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 // 아래 커스덤 훅은 useEffect 에서 비동기 함수를 호출하려 할 때 사용
 export const useAsync = <T>(
   asyncCallBack: () => Promise<T>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deps: any[] = []
 ): [Error | null, () => void] => {
   const [error, setError] = useState<Error | null>(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     asyncCallBack().catch((e) => setError(e));
   }, deps);
