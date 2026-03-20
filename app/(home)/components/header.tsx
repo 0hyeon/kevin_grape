@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Nav from "./nav";
 
-export default function Header({ cartcount }: any) {
+export default function Header({ cartcount }:any) {
   const [isActive, setIsActive] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -110,19 +110,19 @@ export default function Header({ cartcount }: any) {
         ) : (
           <>
             <div>
-              <Link href={"/productlist/lame"}>슈팅스타</Link>
+              <Link href={"/productlist/lame"}>금향포도</Link>
             </div>
             <div>
-              <Link href={"/productlist/eunbak"}>샤인머스켓</Link>
+              <Link href={"/productlist/eunbak"}>슈팅스타포도</Link>
             </div>
             <div>
-              <Link href={"/productlist/aircap"}>에어캡봉투</Link>
+              <Link href={"/productlist/aircap"}>샤인머스켓</Link>
             </div>
             <div
               className="cursor-pointer"
               onClick={() => alert("준비중입니다.")}
             >
-              발포시트지
+              안성머루포도
             </div>
             <div
               className="cursor-pointer"

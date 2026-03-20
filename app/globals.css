@@ -34,3 +34,32 @@ body {
   width: max-content;
   animation: marquee 28s linear infinite;
 }
+
+/* ── 마퀴 반짝이 단어 (shimmer) ──────────────────────────────
+   특정 단어(Kevin Grape, 슈팅스타포도, 금향포도)에 골드 shimmer 효과
+   background-clip: text로 그라디언트를 글자에만 적용
+────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+.sparkle-word {
+  background: linear-gradient(
+    90deg,
+    #111 0%,
+    #111 30%,
+    #9b6b2f 42%,
+    #ffd700 50%,
+    #9b6b2f 58%,
+    #111 70%,
+    #111 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 4s linear infinite;
+  text-shadow: none !important;
+  display: inline-block;
+}
