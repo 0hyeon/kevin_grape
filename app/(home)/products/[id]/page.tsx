@@ -83,10 +83,13 @@ export async function getProducts() {
   return product;
 }
 
+// 빌드 시 DB 접근 불가 → 런타임 동적 생성으로 전환 (dynamicParams = true)
 export async function generateStaticParams() {
-  const products = await getProducts(); // 모든 제품을 가져옴
-  return products.map((product) => ({ id: String(product.id) })); // 각 제품의 ID로 페이지 생성
+  // const products = await getProducts();
+  // return products.map((product) => ({ id: String(product.id) }));
+  return [];
 }
+export const dynamicParams = true;
 
 export default async function ProductDetail({
   params,
