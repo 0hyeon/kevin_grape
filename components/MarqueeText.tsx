@@ -15,6 +15,23 @@ const textShadow =
 const BEFORE = "Kevin Grape ✦ 슈팅스타포도 ✦ ";
 const AFTER = " ✦ 샤인머스켓 ✦ 안성머루포도 ✦ ";
 
+const SPARKLE_COLORS = [
+  "#ff0080","#ff4500","#ffd700","#00e676",
+  "#00bcd4","#7c4dff","#ff6ec7","#18ffff",
+];
+
+// 미리 고정 생성 — 렌더 중 DOM 변경 없음
+const SPARKLES = [
+  { x: "5%",  y: "-8px",  color: SPARKLE_COLORS[0], size: 14, delay: "0s",    dur: "1.6s" },
+  { x: "18%", y: "90%",   color: SPARKLE_COLORS[1], size: 18, delay: "0.3s",  dur: "2.0s" },
+  { x: "32%", y: "-10px", color: SPARKLE_COLORS[2], size: 22, delay: "0.6s",  dur: "1.4s" },
+  { x: "47%", y: "80%",   color: SPARKLE_COLORS[3], size: 16, delay: "0.9s",  dur: "1.8s" },
+  { x: "60%", y: "-6px",  color: SPARKLE_COLORS[4], size: 20, delay: "0.2s",  dur: "2.2s" },
+  { x: "72%", y: "95%",   color: SPARKLE_COLORS[5], size: 14, delay: "0.7s",  dur: "1.5s" },
+  { x: "85%", y: "-12px", color: SPARKLE_COLORS[6], size: 24, delay: "0.4s",  dur: "1.9s" },
+  { x: "95%", y: "70%",   color: SPARKLE_COLORS[7], size: 16, delay: "1.0s",  dur: "1.7s" },
+];
+
 function MarqueeContent() {
   return (
     <span
@@ -22,8 +39,26 @@ function MarqueeContent() {
       style={{ paddingRight: "3rem", whiteSpace: "nowrap", textShadow }}
     >
       {BEFORE}
-      <span className="rainbow-text-static" style={{ textShadow: "none" }}>
+      <span className="rainbow-text-animated" style={{ textShadow: "none", position: "relative" }}>
         금향포도
+        {SPARKLES.map((s, i) => (
+          <span
+            key={i}
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: s.x,
+              top: s.y,
+              color: s.color,
+              fontSize: s.size,
+              lineHeight: 1,
+              animation: `sparkle-loop ${s.dur} ${s.delay} ease-in-out infinite`,
+              pointerEvents: "none",
+            }}
+          >
+            ✦
+          </span>
+        ))}
       </span>
       {AFTER}
     </span>

@@ -40,10 +40,12 @@ body {
   to   { filter: hue-rotate(360deg); }
 }
 
-@keyframes sparkle-pop {
-  0%   { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
-  50%  { opacity: 1; transform: translate(-50%, -120%) scale(1.2); }
-  100% { opacity: 0; transform: translate(-50%, -170%) scale(0.8); }
+/* DOM 변경 없는 CSS 전용 스파클 — opacity/transform만 사용 (GPU 합성) */
+@keyframes sparkle-loop {
+  0%, 100% { opacity: 0; transform: translate(0,  0px) scale(0.3); }
+  40%       { opacity: 1; transform: translate(0, -12px) scale(1.2); }
+  70%       { opacity: 1; transform: translate(0, -14px) scale(1.0); }
+  90%       { opacity: 0; transform: translate(0, -20px) scale(0.6); }
 }
 
 /* 헤더용: 애니메이션 있음 */
