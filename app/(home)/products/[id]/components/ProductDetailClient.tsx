@@ -1,63 +1,43 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import CartButton from "./cart";
 import { formatToWon } from "@/lib/utils";
-import SelectComponent from "@/components/select-bar";
 import Image from "next/image";
 import { IProduct } from "@/types/type";
+import GrapeSelect, { GrapeOption } from "@/components/grape-select";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 interface ProductDetailClientProps {
   product: IProduct & { src?: string; detailImages?: string[] };
   params: number;
 }
 
+interface SelectedItem extends GrapeOption {
+  quantity: number;
+}
+
 const ProductDetailClient = ({ product, params }: ProductDetailClientProps) => {
-  const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
+  const [showCart, setShowCart] = useState(false);
 
-  const handleOptionSelect = useCallback(
-    (
-      optionDetails: string,
-      price: string,
-      plusPrice: number,
-      pdOptionId: number,
-      dummycount: number
-    ) => {
-      if (isNaN(pdOptionId)) return;
-      setSelectedOptions((prevOptions) => {
-        if (prevOptions.findIndex((o) => o.id === pdOptionId) >= 0) {
-          setAlertMessage("이미 선택된 옵션입니다.");
-          return prevOptions;
-        }
-        return [...prevOptions, { optionDetails, price, plusPrice, id: pdOptionId, quantity: 1, dummycount }];
-      });
-    },
-    []
-  );
+  const handleSelect = (option: GrapeOption) => {
+    setSelectedItems((prev) => [...prev, { ...option, quantity: 1 }]);
+  };
 
-  useEffect(() => {
-    if (alertMessage !== null) {
-      alert(alertMessage);
-      setAlertMessage(null);
-    }
-  }, [alertMessage]);
-
-  const handleQuantityChange = (optionId: number, change: number) => {
-    setSelectedOptions((prev) =>
-      prev.map((o) => o.id === optionId ? { ...o, quantity: o.quantity + change } : o)
+  const handleQty = (id: number, delta: number) => {
+    setSelectedItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
+      )
     );
   };
 
-  const handleRemoveOption = (optionId: number) => {
-    setSelectedOptions((prev) => prev.filter((o) => o.id !== optionId));
+  const handleRemove = (id: number) => {
+    setSelectedItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const getTotalPrice = () =>
-    selectedOptions.reduce((total, option) => {
-      const optionPrice = Number(option.price.replace(/,/g, ""));
-      return total + optionPrice * option.quantity * option.dummycount;
-    }, 0);
-
+  const totalPrice = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const detailImages = product.detailImages ?? ["/images/kevin_detail_page.jpg"];
 
   return (
@@ -75,22 +55,22 @@ const ProductDetailClient = ({ product, params }: ProductDetailClientProps) => {
             />
           </div>
         </div>
+
         {/* 상품 정보 */}
         <div className="w-full md:w-[550px]">
           <div className="p-5">
             <div className="pb-[12px] md:pb-[18px] px-[5px] border-b border-[#d5dbdc]">
-              <h1 className="text-2xl md:text-3xl font-medium tracking-[-.06em]">
-                {product.title}
-              </h1>
+              <h1 className="text-2xl md:text-3xl font-medium tracking-[-.06em]">{product.title}</h1>
             </div>
+
             <div className="pt-3 pb-[12px] md:pb-[18px] px-[5px] border-b border-[#d5dbdc]">
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+              <div className="flex items-center gap-2">
                 <div className="font-medium text-sm line-through text-gray-500">
                   {formatToWon(product.price)}원
                 </div>
-                <div className="font-semibold text-lg md:text-xl text-orange-600">
-                  {product.discount ? `${product.discount}%` : ""}
-                </div>
+                {product.discount ? (
+                  <div className="font-semibold text-lg text-orange-600">{product.discount}%</div>
+                ) : null}
               </div>
               <div className="font-extrabold text-lg md:text-xl">
                 {formatToWon(
@@ -99,72 +79,115 @@ const ProductDetailClient = ({ product, params }: ProductDetailClientProps) => {
                     : product.price
                 )}원
               </div>
-              <div className="text-sm md:text-base pt-3 flex flex-col md:flex-row items-start md:items-center gap-2">
-                {product.category}
-                <div className="text-xs md:text-sm">원산지: 국내산</div>
+              <div className="text-sm pt-3 text-gray-600">
+                {product.category} &nbsp;|&nbsp; 원산지: 국내산
               </div>
             </div>
-            <div className="py-5 md:py-[28px] text-sm md:text-base">
-              {product.description}
-            </div>
-            <div className="pb-[18px] md:px-[5px] border-b border-[#d5dbdc]">
-              <SelectComponent
-                options={product.productoption || []}
-                price={product.price}
+
+            <div className="py-5 text-sm md:text-base text-gray-700">{product.description}</div>
+
+            {/* 옵션 선택 */}
+            <div className="pb-[18px] border-b border-[#d5dbdc]">
+              <GrapeSelect
+                productId={product.id}
+                basePrice={product.price}
                 discount={Number(product.discount) || 0}
-                quantity={1}
-                onSelect={handleOptionSelect}
-                selectedOptions={selectedOptions}
+                onSelect={handleSelect}
+                selectedIds={selectedItems.map((i) => i.id)}
               />
             </div>
-            {selectedOptions.length > 0 && (
-              <div className="mt-4">
-                <h2 className="text-lg font-semibold">선택된 옵션</h2>
-                <div className="mt-2">
-                  {selectedOptions.map((option, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 md:gap-0"
-                    >
-                      <div>{option.optionDetails}</div>
-                      <div className="flex items-center mt-2 md:mt-0 w-full justify-between md:justify-end">
-                        <div>
-                          <button
-                            className="w-[34px] h-[34px] rounded md:w-[30px] md:h-[30px] border border-gray-300"
-                            onClick={() => handleQuantityChange(option.id, -1)}
-                            disabled={option.quantity <= 1}
-                          >-</button>
-                          <span className="mx-2 md:mx-4">{option.quantity}</span>
-                          <button
-                            className="w-[34px] h-[34px] rounded md:w-[30px] md:h-[30px] border border-gray-300"
-                            onClick={() => handleQuantityChange(option.id, 1)}
-                          >+</button>
-                        </div>
-                        <button
-                          className="ml-4 w-[34px] h-[34px] rounded md:w-[30px] md:h-[30px] border border-gray-300 text-red-600"
-                          onClick={() => handleRemoveOption(option.id)}
-                        >x</button>
-                      </div>
+
+            {/* 선택된 옵션 목록 */}
+            {selectedItems.length > 0 && (
+              <div className="mt-4 space-y-3">
+                {selectedItems.map((item) => (
+                  <div key={item.id} className="flex items-center justify-between gap-2 text-sm">
+                    <span className="flex-1">{item.label}</span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        className="w-7 h-7 border border-gray-300 rounded"
+                        onClick={() => handleQty(item.id, -1)}
+                        disabled={item.quantity <= 1}
+                      >-</button>
+                      <span>{item.quantity}</span>
+                      <button
+                        className="w-7 h-7 border border-gray-300 rounded"
+                        onClick={() => handleQty(item.id, 1)}
+                      >+</button>
+                      <span className="w-24 text-right font-medium">
+                        {formatToWon(item.price * item.quantity)}원
+                      </span>
+                      <button
+                        className="text-red-500 text-xs border border-red-300 rounded px-1"
+                        onClick={() => handleRemove(item.id)}
+                      >✕</button>
                     </div>
-                  ))}
-                </div>
-                <div className="mt-4 font-extrabold text-lg md:text-xl">
-                  총 가격: {formatToWon(getTotalPrice())}원
+                  </div>
+                ))}
+                <div className="pt-2 border-t text-right font-extrabold text-lg">
+                  총 {formatToWon(totalPrice)}원
                 </div>
               </div>
             )}
-            <div className="pt-6 md:pt-10 flex flex-col w-full gap-2">
-              {params && (
-                <CartButton
-                  options={selectedOptions}
-                  cartId={params}
-                  text={"장바구니담기"}
-                />
-              )}
+
+            {/* 장바구니 버튼 */}
+            <div className="pt-6 md:pt-10">
+              <button
+                onClick={() => {
+                  if (selectedItems.length === 0) {
+                    alert("옵션을 선택해주세요.");
+                    return;
+                  }
+                  setShowCart(true);
+                }}
+                className="w-full p-4 bg-white hover:bg-blue-600 hover:text-white text-blue-600 rounded-md border border-gray-400 font-semibold text-base hover:border-blue-600 duration-300"
+              >
+                장바구니 담기
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* 장바구니 팝업 */}
+      {showCart && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded-xl shadow-xl w-[90%] max-w-[480px] z-10">
+            <div className="flex items-center gap-3 mb-4">
+              <ShoppingCartIcon className="h-8 text-blue-600" />
+              <h2 className="text-xl font-bold">주문 확인</h2>
+            </div>
+            <div className="space-y-2 text-sm border-t border-b py-4 mb-4">
+              {selectedItems.map((item) => (
+                <div key={item.id} className="flex justify-between">
+                  <span>{item.label} × {item.quantity}</span>
+                  <span className="font-medium">{formatToWon(item.price * item.quantity)}원</span>
+                </div>
+              ))}
+              <div className="pt-2 flex justify-between font-extrabold text-base">
+                <span>합계</span>
+                <span>{formatToWon(totalPrice)}원</span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Link
+                href="https://pf.kakao.com/_kevin"
+                target="_blank"
+                className="w-full p-3 text-center bg-yellow-400 text-black font-bold rounded-md text-sm"
+              >
+                카카오채널로 주문하기
+              </Link>
+              <button
+                onClick={() => setShowCart(false)}
+                className="w-full p-3 bg-gray-100 rounded-md text-sm font-medium"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+          <div className="fixed inset-0" onClick={() => setShowCart(false)} />
+        </div>
+      )}
 
       {/* 상세 이미지 */}
       {detailImages.map((src, idx) => (
