@@ -1,21 +1,20 @@
 "use server";
-import db from "@/lib/db";
 import { notFound } from "next/navigation";
-import { unstable_cache as nextCache, revalidateTag } from "next/cache";
-import { Product } from "@prisma/client";
 import ProductDetailClient from "./components/ProductDetailClient";
-import { getSession } from "@/lib/session";
-import { cookies } from "next/headers";
+import { grapeProducts } from "@/static/data";
 
-async function getIsOwner(userId: number) {
-  const cookieStore = cookies();
-  const session = await getSession(cookieStore);
-
-  if (session.id) {
-    return session.id === userId;
-  }
-  return false;
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const product = grapeProducts.find((p) => p.id === Number(params.id));
+  return { title: product?.title ?? "상품 상세" };
 }
+
+export async function generateStaticParams() {
+  return grapeProducts.map((p) => ({ id: String(p.id) }));
+}
+
+// 기존 캐시 함수들은 productlist 등 다른 곳에서 사용 중이므로 유지
+import db from "@/lib/db";
+import { unstable_cache as nextCache, revalidateTag } from "next/cache";
 
 export const getCachedProduct = nextCache(getProduct, ["product-detail"], {
   tags: ["product-detail"],
@@ -23,71 +22,25 @@ export const getCachedProduct = nextCache(getProduct, ["product-detail"], {
 export const getCachedProducts = nextCache(getProducts, ["products"], {
   tags: ["products"],
 });
-const getCachedProductTitle = nextCache(getProductTitle, ["product-title"], {
-  tags: ["product-title"],
-});
-
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const product = await getCachedProductTitle(Number(params.id));
-  return {
-    title: product?.title,
-  };
-}
-
-export async function getProductTitle(id: number) {
-  const product = db.product.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      title: true,
-    },
-  });
-  return product;
-}
 
 export async function getProduct(id: number) {
-  const product = db.product.findUnique({
-    where: {
-      id,
-    },
+  return db.product.findUnique({
+    where: { id },
     include: {
       user: true,
-      productPicture: {
-        include: {
-          slideimages: true,
-        },
-      },
+      productPicture: { include: { slideimages: true } },
       productoption: true,
     },
   });
-  return product;
 }
 
 export async function getProducts() {
-  const product = await db.product.findMany({
+  return db.product.findMany({
     include: {
-      productPicture: {
-        include: {
-          slideimages: true,
-        },
-      },
-      _count: {
-        select: {
-          productoption: true,
-          cart: true,
-        },
-      },
+      productPicture: { include: { slideimages: true } },
+      _count: { select: { productoption: true, cart: true } },
     },
   });
-  return product;
-}
-
-// 빌드 시 DB 접근 불가 → 빈 배열 반환 (dynamicParams는 Next.js 기본값 true라 선언 불필요)
-export async function generateStaticParams() {
-  // const products = await getProducts();
-  // return products.map((product) => ({ id: String(product.id) }));
-  return [];
 }
 
 export default async function ProductDetail({
@@ -95,23 +48,14 @@ export default async function ProductDetail({
 }: {
   params: { id: string };
 }) {
-  // await new Promise((resolve) => setTimeout(resolve, 3600000));
   const id = Number(params.id);
-  if (isNaN(id)) {
-    return notFound();
-  }
+  if (isNaN(id)) return notFound();
 
-  const product = await getCachedProduct(id);
-  if (!product) {
-    return notFound();
-  }
-  const isOwner = await getIsOwner(product.userId);
+  const product = grapeProducts.find((p) => p.id === id);
+  if (!product) return notFound();
 
-  const revalidate = async () => {
-    "use server";
-    revalidateTag("product-title");
-  };
   revalidateTag("products");
 
-  return <ProductDetailClient product={product} params={id} />;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <ProductDetailClient product={product as any} params={id} />;
 }
