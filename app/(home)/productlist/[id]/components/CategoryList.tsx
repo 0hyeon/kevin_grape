@@ -36,6 +36,9 @@ const CategoryList = ({
   const [method, setMethod] = useState<any>(
     categories.length > 0 ? categories[0] : ""
   );
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
   return (
     <>
       <div className="mb-2 border-b p-3 m-3">
