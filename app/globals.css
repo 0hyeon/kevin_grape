@@ -35,31 +35,89 @@ body {
   animation: marquee 28s linear infinite;
 }
 
-/* ── 마퀴 반짝이 단어 (shimmer) ──────────────────────────────
-   특정 단어(Kevin Grape, 슈팅스타포도, 금향포도)에 골드 shimmer 효과
-   background-clip: text로 그라디언트를 글자에만 적용
-────────────────────────────────────────────────────────── */
-@keyframes shimmer {
-  0%   { background-position: 200% center; }
-  100% { background-position: -200% center; }
+/* ══════════════════════════════════════════════════════════
+   마퀴 단어별 인터렉티브 효과 (3종)
+   ══════════════════════════════════════════════════════════ */
+
+/* ① Kevin Grape — 크롬 메탈릭 스위프 (럭셔리 브랜드 광택)
+      밝은 흰빛 라인이 어두운 텍스트 위를 천천히 가로지름      ─────────────────────────────────────────────────────── */
+@keyframes chrome-sweep {
+  0%   { background-position: 150% center; }
+  100% { background-position: -150% center; }
 }
 
-.sparkle-word {
+.sparkle-kevin {
+  display: inline-block;
   background: linear-gradient(
-    90deg,
-    #111 0%,
-    #111 30%,
-    #9b6b2f 42%,
-    #ffd700 50%,
-    #9b6b2f 58%,
-    #111 70%,
-    #111 100%
+    105deg,
+    #1a1a1a 0%,
+    #1a1a1a 38%,
+    #a0a0a0 46%,
+    #ffffff 50%,
+    #a0a0a0 54%,
+    #1a1a1a 62%,
+    #1a1a1a 100%
   );
-  background-size: 250% auto;
+  background-size: 300% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: shimmer 4s linear infinite;
+  animation: chrome-sweep 4s ease-in-out infinite;
   text-shadow: none !important;
+}
+
+/* ② 슈팅스타포도 — 슈팅스타 버스트 (생동감 있는 퍼플 글로우)
+      색상이 딥 퍼플 → 비비드 바이올렛으로 맥동하며 빛을 내뿜음
+      ─────────────────────────────────────────────────────── */
+@keyframes star-burst {
+  0%, 100% {
+    color: #5b21b6;
+    text-shadow:
+      0 0  0px transparent,
+      1px 1px 0 #4c1d95,
+      2px 2px 0 #3b0764,
+      3px 3px 8px rgba(91,33,182,0.25);
+  }
+  50% {
+    color: #a855f7;
+    text-shadow:
+      0 0 12px rgba(168,85,247,0.8),
+      0 0 28px rgba(139,92,246,0.5),
+      0 0 50px rgba(124,58,237,0.25),
+      1px 1px 0 #7c3aed,
+      2px 2px 0 #6d28d9;
+  }
+}
+
+.sparkle-shooting {
   display: inline-block;
+  animation: star-burst 2.8s ease-in-out infinite;
+}
+
+/* ③ 금향포도 — 웜 골드 브리딩 (명품 시계의 골드 광택)
+      앰버 → 딥골드로 천천히 호흡하며 따뜻한 빛이 퍼짐
+      ─────────────────────────────────────────────────────── */
+@keyframes gold-breathe {
+  0%, 100% {
+    color: #92400e;
+    text-shadow:
+      0 0  0px transparent,
+      1px 1px 0 #78350f,
+      2px 2px 0 #451a03,
+      3px 3px 8px rgba(146,64,14,0.2);
+  }
+  50% {
+    color: #f59e0b;
+    text-shadow:
+      0 0 10px rgba(251,191,36,0.7),
+      0 0 24px rgba(245,158,11,0.45),
+      0 0 42px rgba(217,119,6,0.25),
+      1px 1px 0 #d97706,
+      2px 2px 0 #b45309;
+  }
+}
+
+.sparkle-gold {
+  display: inline-block;
+  animation: gold-breathe 3.2s ease-in-out infinite;
 }
