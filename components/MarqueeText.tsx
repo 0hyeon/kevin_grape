@@ -42,7 +42,7 @@ function RainbowMarqueeWord() {
         left: ${randomBetween(0, width)}px;
         top: ${randomBetween(-4, height + 4)}px;
         color: ${SPARKLE_COLORS[Math.floor(Math.random() * SPARKLE_COLORS.length)]};
-        font-size: ${randomBetween(6, 14)}px;
+        font-size: ${randomBetween(14, 26)}px;
         transform: translate(-50%, -50%);
         animation: sparkle-pop 0.7s ease-out forwards;
         pointer-events: none;
@@ -53,7 +53,7 @@ function RainbowMarqueeWord() {
       setTimeout(() => el.remove(), 700);
     };
 
-    const interval = setInterval(addSparkle, 500);
+    const interval = setInterval(addSparkle, 180);
     return () => clearInterval(interval);
   }, []);
 
