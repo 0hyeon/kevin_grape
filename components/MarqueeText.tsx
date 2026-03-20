@@ -23,9 +23,10 @@ const rainbowStyle: React.CSSProperties = {
   WebkitTextFillColor: "transparent",
   backgroundClip: "text",
   animation: "rainbow-shift 1.2s linear infinite",
-  filter: "drop-shadow(0 0 8px rgba(180,0,255,0.5))",
-  fontWeight: 900,
+  filter: "drop-shadow(0 0 6px rgba(180,0,255,0.45))",
+  fontWeight: 700,
   display: "inline-block",
+  textShadow: "none",
 };
 
 function MarqueeContent() {
