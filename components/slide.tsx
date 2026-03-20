@@ -77,7 +77,7 @@ export default function Slide() {
           setSwiper(e)
         }}
       >
-        {slideData.map((slide) => (
+        {slideData.map((slide, idx) => (
           <SwiperSlide key={slide.id}>
             {isMobile ? (
               // 모바일일 때 레이아웃
@@ -89,6 +89,7 @@ export default function Slide() {
                         alt={String(slide.id)}
                         src={slide.mobileSrc}
                         fill
+                        priority={idx === 0} // 첫 슬라이드 LCP 최적화
                         style={{
                           objectFit: 'contain',
                         }}
@@ -100,6 +101,7 @@ export default function Slide() {
                     alt={String(slide.id)}
                     src={slide.mobileSrc}
                     fill
+                    priority={idx === 0}
                     style={{
                       objectFit: 'contain',
                     }}
@@ -116,6 +118,7 @@ export default function Slide() {
                         alt={String(slide.id)}
                         src={slide.src}
                         fill
+                        priority={idx === 0} // 첫 슬라이드 LCP 최적화
                         style={{
                           objectFit: 'cover',
                         }}
@@ -127,6 +130,7 @@ export default function Slide() {
                     alt={String(slide.id)}
                     src={slide.src}
                     fill
+                    priority={idx === 0}
                     style={{
                       objectFit: 'cover',
                     }}

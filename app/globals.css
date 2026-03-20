@@ -19,3 +19,18 @@ body {
     text-wrap: balance;
   }
 }
+
+/* ── 마퀴 텍스트 CSS 애니메이션 ──────────────────────────────
+   컴포지터 스레드에서 실행 → JS 부하 무관하게 60fps 유지
+   두 개의 복사본(width: max-content)을 -50% 이동 = 1카피 너비만큼 이동 = 무한 루프
+────────────────────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
