@@ -19,7 +19,7 @@ const PC_ITEMS: {
   scaleRange: [number, number];
   style: { top?: string; left?: string; width: string; height: string };
 }[] = [
-  { scaleRange: [1, 4], style: {                              width: "18vw", height: "32vh" } },
+  { scaleRange: [1, 2], style: {                              width: "18vw", height: "32vh" } },
   { scaleRange: [1, 5], style: { top: "-28vh", left: "5vw",  width: "22vw", height: "40vh" } },
   { scaleRange: [1, 6], style: { top: "-8vh",  left: "-22vw",width: "15vw", height: "42vh" } },
   { scaleRange: [1, 5], style: {               left: "25vw", width: "18vw", height: "32vh" } },
