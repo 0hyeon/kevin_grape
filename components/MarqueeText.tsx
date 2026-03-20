@@ -118,32 +118,38 @@ function MarqueeContent() {
 
 function MarqueeTrack() {
   const trackRef = useRef<HTMLDivElement>(null);
-  const animRef = useRef<Animation | null>(null);
+  const posRef = useRef(0);       // 현재 위치 (0 ~ -50%)
+  const dirRef = useRef(1);       // 1 = 왼쪽, -1 = 오른쪽
   const lastScrollY = useRef(0);
 
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
 
-    // CSS 애니메이션 제거 후 WAAPI로 제어
     el.style.animation = "none";
-    animRef.current = el.animate(
-      [{ transform: "translateX(0)" }, { transform: "translateX(-50%)" }],
-      { duration: 28000, iterations: Infinity }
-    );
+    let rafId: number;
+
+    const tick = () => {
+      posRef.current -= dirRef.current * 0.025;
+      if (posRef.current <= -50) posRef.current += 50;
+      if (posRef.current >= 0)   posRef.current -= 50;
+      el.style.transform = `translateX(${posRef.current}%)`;
+      rafId = requestAnimationFrame(tick);
+    };
 
     const handleScroll = () => {
       const y = window.scrollY;
-      if (animRef.current) {
-        animRef.current.playbackRate = y > lastScrollY.current ? 1 : -1;
-      }
+      dirRef.current = y >= lastScrollY.current ? 1 : -1;
       lastScrollY.current = y;
     };
 
+    lastScrollY.current = window.scrollY;
     window.addEventListener("scroll", handleScroll, { passive: true });
+    rafId = requestAnimationFrame(tick);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      animRef.current?.cancel();
+      cancelAnimationFrame(rafId);
     };
   }, []);
 

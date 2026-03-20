@@ -54,10 +54,12 @@ body {
   will-change: filter;
 }
 
-/* 마퀴용: 단색 + hue-rotate, will-change 없음 (마퀴 레이어 분리 안 함) */
+/* 마퀴용: 정적 그라디언트 — 애니메이션 없어 마퀴 레이어 재래스터화 없음 */
 .rainbow-text-static {
-  color: #ff0080;
+  background: linear-gradient(90deg, #ff0080, #ff4500, #ffd700, #00e676, #00bcd4, #7c4dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-weight: 700;
   display: inline-block;
-  animation: hue-spin 2s linear infinite;
 }
