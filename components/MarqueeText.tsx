@@ -24,42 +24,84 @@ function randomBetween(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
+interface Particle {
+  x: number;
+  y: number;
+  size: number;
+  color: string;
+  life: number; // 1 → 0
+  vy: number;
+}
+
 function RainbowMarqueeWord() {
-  const ref = useRef<HTMLSpanElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const container = ref.current;
-    if (!container) return;
+    const text = textRef.current;
+    const canvas = canvasRef.current;
+    if (!text || !canvas) return;
 
-    // 치수 한 번만 계산
-    const { width, height } = container.getBoundingClientRect();
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    const addSparkle = () => {
-      const el = document.createElement("span");
-      el.textContent = "✦";
-      el.style.cssText = `
-        position: absolute;
-        left: ${randomBetween(0, width)}px;
-        top: ${randomBetween(-4, height + 4)}px;
-        color: ${SPARKLE_COLORS[Math.floor(Math.random() * SPARKLE_COLORS.length)]};
-        font-size: ${randomBetween(14, 26)}px;
-        transform: translate(-50%, -50%);
-        animation: sparkle-pop 0.7s ease-out forwards;
-        pointer-events: none;
-        z-index: 10;
-        line-height: 1;
-      `;
-      container.appendChild(el);
-      setTimeout(() => el.remove(), 700);
+    const PAD = 20;
+    const { width, height } = text.getBoundingClientRect();
+    canvas.width = width + PAD * 2;
+    canvas.height = height + PAD * 2;
+
+    const particles: Particle[] = [];
+
+    const addParticle = () => {
+      particles.push({
+        x: randomBetween(0, width),
+        y: randomBetween(0, height),
+        size: randomBetween(14, 26),
+        color: SPARKLE_COLORS[Math.floor(Math.random() * SPARKLE_COLORS.length)],
+        life: 1,
+        vy: -randomBetween(0.8, 2),
+      });
     };
 
-    const interval = setInterval(addSparkle, 180);
-    return () => clearInterval(interval);
+    let rafId: number;
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.life -= 0.025;
+        p.y += p.vy;
+        if (p.life <= 0) { particles.splice(i, 1); continue; }
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.color;
+        ctx.font = `${p.size}px serif`;
+        ctx.fillText("✦", p.x + PAD, p.y + PAD);
+      }
+      ctx.globalAlpha = 1;
+      rafId = requestAnimationFrame(draw);
+    };
+
+    const intervalId = setInterval(addParticle, 180);
+    rafId = requestAnimationFrame(draw);
+
+    return () => {
+      clearInterval(intervalId);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
-    <span ref={ref} className="rainbow-text-static" style={{ position: "relative", display: "inline-block" }}>
-      금향포도
+    <span style={{ position: "relative", display: "inline-block" }}>
+      <span ref={textRef} className="rainbow-text-static">금향포도</span>
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "absolute",
+          top: -20,
+          left: -20,
+          pointerEvents: "none",
+          zIndex: 10,
+        }}
+      />
     </span>
   );
 }
