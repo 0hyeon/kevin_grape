@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Nav from "./nav";
+import RainbowNavItem from "@/components/RainbowNavItem";
 
 export default function Header({ cartcount }:any) {
   const [isActive, setIsActive] = useState(false);
@@ -110,7 +111,7 @@ export default function Header({ cartcount }:any) {
         ) : (
           <>
             <div>
-              <Link href={"/productlist/lame"}>금향포도</Link>
+              <RainbowNavItem href="/productlist/lame" />
             </div>
             <div>
               <Link href={"/productlist/eunbak"}>슈팅스타포도</Link>
