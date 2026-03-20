@@ -1,4 +1,4 @@
-"use server";
+// "use server"; // 페이지 파일엔 불필요 — App Router 서버 컴포넌트는 기본값이 server
 import db from "@/lib/db";
 import { notFound } from "next/navigation";
 import { unstable_cache as nextCache, revalidateTag } from "next/cache";
