@@ -16,6 +16,9 @@ const nextConfig = {
       {
         hostname: "imagedelivery.net",
       },
+      {
+        hostname: "img.youtube.com",
+      },
     ],
   },
 };
