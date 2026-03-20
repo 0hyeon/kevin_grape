@@ -23,25 +23,14 @@ export default async function TabLayout({
   //   redirect("/login");
   // }
 
-  const cartcount = await getCachedLikeStatus(session.id!);
-
-  async function getUser() {
-    const session = await getSession(cookieStore);
-    if (session.id) {
-      const user = await db.user.findUnique({
-        where: {
-          id: session.id,
-        },
-      });
-      if (user) {
-        return user;
-      }
-    }
-    notFound();
-  }
+  const [cartcount, user] = await Promise.all([
+    session.id ? getCachedLikeStatus(session.id) : Promise.resolve(0),
+    session.id
+      ? db.user.findUnique({ where: { id: session.id } })
+      : Promise.resolve(null),
+  ]);
 
   async function Username() {
-    const user = await getUser();
     return <h1>어서오세요! {user?.username}님</h1>;
   }
 

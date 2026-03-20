@@ -90,10 +90,7 @@ export default function BestItem({ data, title, subtitle }: NullableProduct) {
         spaceBetween={isMobile ? 10 : 150}
         slidesPerView={isMobile ? 2 : 4}
         grid={data && data.length > 0 ? { rows: 2, fill: "row" } : undefined}
-        autoplay={{
-          delay: 4000,
-          disableOnInteraction: false,
-        }}
+        autoplay={false}
         onActiveIndexChange={(e: any) => setSwiperIndex(e.realIndex)}
         onSwiper={(e: any) => setSwiper(e)}
         modules={[Grid]}

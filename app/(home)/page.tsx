@@ -26,7 +26,7 @@ export default async function Home() {
           {/* <Best data={slideData} /> */}
           <BestItem data={items} subtitle="all" title="전체상품" />
           <HashTag />
-          <Tabs />
+          <Tabs items={items} />
 
           {/* <Best data={slideData} /> */}
 
