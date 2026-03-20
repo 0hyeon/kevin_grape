@@ -15,18 +15,15 @@ const PC_SRCS = [
   "/images/parell_8.jpeg",
 ];
 
-const PC_ITEMS: {
-  scaleRange: [number, number];
-  style: { top?: string; left?: string; width: string; height: string };
-}[] = [
-  { scaleRange: [1, 2], style: {                              width: "18vw", height: "32vh" } },
-  { scaleRange: [1, 5], style: { top: "-28vh", left: "5vw",  width: "22vw", height: "40vh" } },
-  { scaleRange: [1, 6], style: { top: "-8vh",  left: "-22vw",width: "15vw", height: "42vh" } },
-  { scaleRange: [1, 5], style: {               left: "25vw", width: "18vw", height: "32vh" } },
-  { scaleRange: [1, 6], style: { top: "25vh",  left: "5vw",  width: "16vw", height: "28vh" } },
-  { scaleRange: [1, 8], style: { top: "25vh",  left: "-20vw",width: "20vw", height: "34vh" } },
-  { scaleRange: [1, 9], style: { top: "20vh",  left: "22vw", width: "13vw", height: "22vh" } },
-];
+const PC_STYLES = [
+  {                              width: "18vw", height: "32vh" },
+  { top: "-28vh", left: "5vw",  width: "22vw", height: "40vh" },
+  { top: "-8vh",  left: "-22vw",width: "15vw", height: "42vh" },
+  {               left: "25vw", width: "18vw", height: "32vh" },
+  { top: "25vh",  left: "5vw",  width: "16vw", height: "28vh" },
+  { top: "25vh",  left: "-20vw",width: "20vw", height: "34vh" },
+  { top: "20vh",  left: "22vw", width: "13vw", height: "22vh" },
+] as const;
 
 /* ─── Mobile ─────────────────────────────────────────── */
 const MO_SRCS = [
@@ -35,16 +32,10 @@ const MO_SRCS = [
   "/images/parell_4.jpeg",
 ];
 
-const MO_ITEMS: {
-  scaleRange: [number, number];
-  top: string;
-  left?: string;
-  width: string;
-  height: string;
-}[] = [
-  { scaleRange: [1, 4], top: "0vh",   width: "60vw", height: "45vh" },
-  { scaleRange: [1, 6], top: "-18vh", left: "-20vw", width: "50vw", height: "38vh" },
-  { scaleRange: [1, 8], top: "18vh",  left: "18vw",  width: "45vw", height: "35vh" },
+const MO_STYLES = [
+  { top: "0vh",   left: undefined, width: "60vw", height: "45vh" },
+  { top: "-18vh", left: "-20vw",   width: "50vw", height: "38vh" },
+  { top: "18vh",  left: "18vw",    width: "45vw", height: "35vh" },
 ];
 
 /* ─── PC Component ───────────────────────────────────── */
@@ -56,10 +47,15 @@ function ZoomParallaxPC() {
     offset: ["start start", "end end"],
   });
 
-  const scales = PC_ITEMS.map((item) =>
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useTransform(scrollYProgress, [0, 1], item.scaleRange)
-  );
+  // Hooks must be at top-level — never inside .map()
+  const s0 = useTransform(scrollYProgress, [0, 1], [1, 2]);
+  const s1 = useTransform(scrollYProgress, [0, 1], [1, 5]);
+  const s2 = useTransform(scrollYProgress, [0, 1], [1, 6]);
+  const s3 = useTransform(scrollYProgress, [0, 1], [1, 5]);
+  const s4 = useTransform(scrollYProgress, [0, 1], [1, 6]);
+  const s5 = useTransform(scrollYProgress, [0, 1], [1, 8]);
+  const s6 = useTransform(scrollYProgress, [0, 1], [1, 9]);
+  const scales = [s0, s1, s2, s3, s4, s5, s6];
 
   return (
     <div ref={container} style={{ height: "300vh", position: "relative" }}>
@@ -71,7 +67,7 @@ function ZoomParallaxPC() {
           overflow: "hidden",
         }}
       >
-        {PC_ITEMS.map((item, i) => (
+        {PC_STYLES.map((st, i) => (
           <motion.div
             key={i}
             style={{
@@ -86,10 +82,10 @@ function ZoomParallaxPC() {
             <div
               style={{
                 position: "relative",
-                width: item.style.width,
-                height: item.style.height,
-                top: item.style.top,
-                left: item.style.left,
+                width: st.width,
+                height: st.height,
+                top: (st as { top?: string }).top,
+                left: (st as { left?: string }).left,
                 borderRadius: "6px",
                 overflow: "hidden",
                 flexShrink: 0,
@@ -120,10 +116,10 @@ function ZoomParallaxMobile() {
     offset: ["start start", "end end"],
   });
 
-  const scales = MO_ITEMS.map((item) =>
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useTransform(scrollYProgress, [0, 1], item.scaleRange)
-  );
+  const m0 = useTransform(scrollYProgress, [0, 1], [1, 4]);
+  const m1 = useTransform(scrollYProgress, [0, 1], [1, 6]);
+  const m2 = useTransform(scrollYProgress, [0, 1], [1, 8]);
+  const scales = [m0, m1, m2];
 
   return (
     <div ref={container} style={{ height: "300vh", position: "relative" }}>
@@ -135,7 +131,7 @@ function ZoomParallaxMobile() {
           overflow: "hidden",
         }}
       >
-        {MO_ITEMS.map((item, i) => (
+        {MO_STYLES.map((st, i) => (
           <motion.div
             key={i}
             style={{
@@ -150,10 +146,10 @@ function ZoomParallaxMobile() {
             <div
               style={{
                 position: "relative",
-                width: item.width,
-                height: item.height,
-                top: item.top,
-                left: item.left,
+                width: st.width,
+                height: st.height,
+                top: st.top,
+                left: st.left,
                 borderRadius: "8px",
                 overflow: "hidden",
                 flexShrink: 0,
