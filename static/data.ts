@@ -190,3 +190,39 @@ export const slideData = [
     },
   ];
   
+
+export const grapeProducts = [
+  {
+    id: 1,
+    title: "슈팅스타포도 1.5kg",
+    price: 28000,
+    discount: 0,
+    category: "슈팅스타포도",
+    description: "씨 없고 껍질째 먹는 달콤한 슈팅스타포도입니다.",
+    src: "/images/grape_test.png",
+    productoption: [],
+    productPicture: null,
+  },
+  {
+    id: 2,
+    title: "금향포도 1.5kg",
+    price: 35000,
+    discount: 10,
+    category: "금향포도",
+    description: "황금빛 당도 높은 금향포도입니다.",
+    src: "/images/grape_test.png",
+    productoption: [],
+    productPicture: null,
+  },
+  {
+    id: 3,
+    title: "샤인머스켓 1.5kg",
+    price: 45000,
+    discount: 0,
+    category: "샤인머스켓",
+    description: "프리미엄 샤인머스켓입니다.",
+    src: "/images/grape_test.png",
+    productoption: [],
+    productPicture: null,
+  },
+];

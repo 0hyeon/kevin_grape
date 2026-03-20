@@ -5,8 +5,7 @@ import Best from "@/components/Best";
 import Footer from "@/components/Footer";
 import Tabs from "@/components/Tab";
 import HashTag from "@/components/hashtag";
-import { slideData } from "@/static/data";
-import { getCachedProducts } from "./products/[id]/page";
+import { grapeProducts } from "@/static/data";
 import MarqueeText from "@/components/MarqueeText";
 
 const Slide = dynamic(() => import("@/components/slide"), { ssr: false });
@@ -14,23 +13,22 @@ const SlideSmall = dynamic(() => import("@/components/slideSmall"), { ssr: false
 const BestItem = dynamic(() => import("@/components/BestItem"), { ssr: false });
 
 export default async function Home() {
-  const items = await getCachedProducts();
-  // await new Promise((resolve) => setTimeout(resolve, 3600000));
   return (
     <>
       <main>
         <Slide />
         <MarqueeText />
 <div className="max-w-[1000px] mx-auto my-0 px-4 sm:px-6 lg:px-8">
-          <SlideSmall />
+          {/* <SlideSmall /> */}
           {/* <Best data={slideData} /> */}
-          <BestItem data={items} subtitle="all" title="전체상품" />
-          <HashTag />
-          <Tabs items={items} />
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          <BestItem data={grapeProducts as any} subtitle="all" title="전체상품" />
+          {/* <HashTag /> */}
+          {/* <Tabs items={items} /> */}
 
           {/* <Best data={slideData} /> */}
 
-          <BestItem
+          {/* <BestItem
             data={items.filter(
               (el) => el.productPicture?.category === "에어캡봉투"
             )}
@@ -50,7 +48,7 @@ export default async function Home() {
             )}
             subtitle="가성비ㆍ탁월한"
             title="라미봉투"
-          />
+          /> */}
           <video
             autoPlay
             muted

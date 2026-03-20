@@ -140,7 +140,7 @@ export default function BestItem({ data, title, subtitle }: NullableProduct) {
                   isMobile ? "text-sm" : "min-w-[260px]"
                 }`}
               >
-                <div className="w-full">{"슈팅스타 1.5kg"}</div>
+                <div className="w-full">{slide.title}</div>
                 <div className="flex pt-[10px] items-center">
                   {/* 기존 가격 */}
                   <div
