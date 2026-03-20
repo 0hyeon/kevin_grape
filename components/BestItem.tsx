@@ -128,7 +128,7 @@ export default function BestItem({ data, title, subtitle }: NullableProduct) {
                 /> */}
                 <Image
                   alt={`Image of ${slide.id}`}
-                  src={'/images/grape_test.png'}
+                  src={slide.src || '/images/grape_test.png'}
                   className="object-cover rounded-2xl border border-gray-400"
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
