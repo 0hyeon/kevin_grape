@@ -73,18 +73,19 @@ export default function Slide() {
           <SwiperSlide key={slide.id}>
             {isMobile ? (
               // 모바일일 때 레이아웃
-              <div className="relative w-full aspect-[375/314] flex justify-center items-center bg-gray-100">
+              <div className="relative w-full aspect-[375/314] bg-gray-100">
                 {slide.href ? (
-                  <Link href={`${slide.href}`}>
+                  <Link
+                    href={`${slide.href}`}
+                    style={{ display: 'block', position: 'absolute', inset: 0 }}
+                  >
                     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                       <Image
                         alt={String(slide.id)}
                         src={slide.mobileSrc}
                         fill
-                        priority={idx === 0} // 첫 슬라이드 LCP 최적화
-                        style={{
-                          objectFit: 'contain',
-                        }}
+                        priority={idx === 0}
+                        style={{ objectFit: 'cover' }}
                       />
                     </div>
                   </Link>
@@ -94,9 +95,7 @@ export default function Slide() {
                     src={slide.mobileSrc}
                     fill
                     priority={idx === 0}
-                    style={{
-                      objectFit: 'contain',
-                    }}
+                    style={{ objectFit: 'cover' }}
                   />
                 )}
               </div>
@@ -104,16 +103,17 @@ export default function Slide() {
               // PC일 때 레이아웃 1920x360,16/3
               <div className="relative w-full aspect-[16/3]">
                 {slide.href ? (
-                  <Link href={`${slide.href}`}>
+                  <Link
+                    href={`${slide.href}`}
+                    style={{ display: 'block', position: 'absolute', inset: 0 }}
+                  >
                     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                       <Image
                         alt={String(slide.id)}
                         src={slide.src}
                         fill
-                        priority={idx === 0} // 첫 슬라이드 LCP 최적화
-                        style={{
-                          objectFit: 'cover',
-                        }}
+                        priority={idx === 0}
+                        style={{ objectFit: 'cover' }}
                       />
                     </div>
                   </Link>
@@ -123,9 +123,7 @@ export default function Slide() {
                     src={slide.src}
                     fill
                     priority={idx === 0}
-                    style={{
-                      objectFit: 'cover',
-                    }}
+                    style={{ objectFit: 'cover' }}
                   />
                 )}
               </div>

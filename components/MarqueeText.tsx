@@ -22,14 +22,14 @@ const SPARKLE_COLORS = [
 
 // 미리 고정 생성 — 렌더 중 DOM 변경 없음
 const SPARKLES = [
-  { x: "5%",  y: "-8px",  color: SPARKLE_COLORS[0], size: 14, delay: "0s",    dur: "1.6s" },
-  { x: "18%", y: "90%",   color: SPARKLE_COLORS[1], size: 18, delay: "0.3s",  dur: "2.0s" },
-  { x: "32%", y: "-10px", color: SPARKLE_COLORS[2], size: 22, delay: "0.6s",  dur: "1.4s" },
-  { x: "47%", y: "80%",   color: SPARKLE_COLORS[3], size: 16, delay: "0.9s",  dur: "1.8s" },
-  { x: "60%", y: "-6px",  color: SPARKLE_COLORS[4], size: 20, delay: "0.2s",  dur: "2.2s" },
-  { x: "72%", y: "95%",   color: SPARKLE_COLORS[5], size: 14, delay: "0.7s",  dur: "1.5s" },
-  { x: "85%", y: "-12px", color: SPARKLE_COLORS[6], size: 24, delay: "0.4s",  dur: "1.9s" },
-  { x: "95%", y: "70%",   color: SPARKLE_COLORS[7], size: 16, delay: "1.0s",  dur: "1.7s" },
+  { x: "5%",  y: "10%",  color: SPARKLE_COLORS[0], size: 14, delay: "0s",    dur: "1.6s" },
+  { x: "18%", y: "70%",  color: SPARKLE_COLORS[1], size: 18, delay: "0.3s",  dur: "2.0s" },
+  { x: "32%", y: "15%",  color: SPARKLE_COLORS[2], size: 22, delay: "0.6s",  dur: "1.4s" },
+  { x: "47%", y: "65%",  color: SPARKLE_COLORS[3], size: 16, delay: "0.9s",  dur: "1.8s" },
+  { x: "60%", y: "10%",  color: SPARKLE_COLORS[4], size: 20, delay: "0.2s",  dur: "2.2s" },
+  { x: "72%", y: "75%",  color: SPARKLE_COLORS[5], size: 14, delay: "0.7s",  dur: "1.5s" },
+  { x: "85%", y: "10%",  color: SPARKLE_COLORS[6], size: 24, delay: "0.4s",  dur: "1.9s" },
+  { x: "95%", y: "60%",  color: SPARKLE_COLORS[7], size: 16, delay: "1.0s",  dur: "1.7s" },
 ];
 
 function MarqueeContent() {
