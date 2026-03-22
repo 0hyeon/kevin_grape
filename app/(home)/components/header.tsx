@@ -111,10 +111,10 @@ export default function Header({ cartcount }:any) {
         ) : (
           <>
             <div>
-              <RainbowNavItem href="/products/2" />
+              <RainbowNavItem href="/products/1" />
             </div>
             <div>
-              <Link href={"/products/1"}>슈팅스타포도</Link>
+              <Link href={"/products/2"}>슈팅스타포도</Link>
             </div>
             <div>
               <Link href={"/products/3"}>샤인머스켓</Link>
