@@ -6,10 +6,9 @@ import { IProduct } from "@/types/type";
 import GrapeSelect, { GrapeOption } from "@/components/grape-select";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
+import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/pagination";
 
 interface ProductDetailClientProps {
   product: IProduct & { src?: string; slideImages?: string[]; detailImages?: string[] };
@@ -22,6 +21,9 @@ interface SelectedItem extends GrapeOption {
 const ProductDetailClient = ({ product }: ProductDetailClientProps) => {
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
   const [showCart, setShowCart] = useState(false);
+  const [swiper, setSwiper] = useState<SwiperClass>();
+  const [slideIndex, setSlideIndex] = useState(0);
+  const slideTotal = product.slideImages?.length ?? 0;
 
   const handleSelect = (option: GrapeOption) => {
     setSelectedItems((prev) => [...prev, { ...option, quantity: 1 }]);
@@ -48,27 +50,48 @@ const ProductDetailClient = ({ product }: ProductDetailClientProps) => {
         {/* 메인 이미지 */}
         <div className="w-full md:w-[500px]">
           {product.slideImages && product.slideImages.length > 0 ? (
-            <Swiper
-              modules={[Pagination, Autoplay]}
-              loop
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 3500, disableOnInteraction: false }}
-              className="rounded-2xl overflow-hidden aspect-square"
-            >
-              {product.slideImages.map((src, i) => (
-                <SwiperSlide key={i}>
-                  <div className="relative aspect-square">
-                    <Image
-                      src={src}
-                      alt={`${product.title} ${i + 1}`}
-                      fill
-                      className="object-cover"
-                      priority={i === 0}
-                    />
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            <div className="relative">
+              <Swiper
+                modules={[Autoplay]}
+                loop
+                autoplay={{ delay: 3500, disableOnInteraction: false }}
+                className="rounded-2xl overflow-hidden aspect-square"
+                onSwiper={setSwiper}
+                onActiveIndexChange={(e) => setSlideIndex(e.realIndex)}
+              >
+                {product.slideImages.map((src, i) => (
+                  <SwiperSlide key={i}>
+                    <div className="relative aspect-square">
+                      <Image
+                        src={src}
+                        alt={`${product.title} ${i + 1}`}
+                        fill
+                        className="object-cover"
+                        priority={i === 0}
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              {/* 커스텀 네비게이션 */}
+              <div className="absolute z-[1] flex bottom-2 left-1/2 -translate-x-1/2 text-white rounded-[100px] w-[70px] py-1 text-sm justify-around items-center bg-[rgba(0,0,0,0.5)]">
+                <div
+                  className="w-6 h-6 cursor-pointer bg-no-repeat bg-center bg-cover"
+                  style={{ backgroundImage: "url('/images/left.png')" }}
+                  onClick={() => swiper?.slidePrev()}
+                />
+                <div className="flex gap-1">
+                  <span>{slideIndex + 1}</span>
+                  <span>/</span>
+                  <span>{slideTotal}</span>
+                </div>
+                <div
+                  className="w-6 h-6 cursor-pointer bg-no-repeat bg-center bg-cover"
+                  style={{ backgroundImage: "url('/images/right.png')" }}
+                  onClick={() => swiper?.slideNext()}
+                />
+              </div>
+            </div>
           ) : (
             <div className="relative aspect-square">
               <Image
