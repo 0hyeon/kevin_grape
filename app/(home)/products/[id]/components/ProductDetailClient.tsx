@@ -1,23 +1,25 @@
 "use client";
 import React, { useState } from "react";
-import CartButton from "./cart";
 import { formatToWon } from "@/lib/utils";
 import Image from "next/image";
 import { IProduct } from "@/types/type";
 import GrapeSelect, { GrapeOption } from "@/components/grape-select";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 interface ProductDetailClientProps {
-  product: IProduct & { src?: string; detailImages?: string[] };
-  params: number;
+  product: IProduct & { src?: string; slideImages?: string[]; detailImages?: string[] };
 }
 
 interface SelectedItem extends GrapeOption {
   quantity: number;
 }
 
-const ProductDetailClient = ({ product, params }: ProductDetailClientProps) => {
+const ProductDetailClient = ({ product }: ProductDetailClientProps) => {
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
   const [showCart, setShowCart] = useState(false);
 
@@ -45,15 +47,39 @@ const ProductDetailClient = ({ product, params }: ProductDetailClientProps) => {
       <div className="flex flex-col md:flex-row gap-5 md:gap-[50px] max-w-[1100px] mx-auto border-b border-[#999] pb-10 md:pb-14">
         {/* 메인 이미지 */}
         <div className="w-full md:w-[500px]">
-          <div className="relative aspect-square">
-            <Image
-              src={product.src || "/images/grape_test.png"}
-              alt={product.title}
-              fill
-              className="object-cover rounded-2xl"
-              priority
-            />
-          </div>
+          {product.slideImages && product.slideImages.length > 0 ? (
+            <Swiper
+              modules={[Pagination, Autoplay]}
+              loop
+              pagination={{ clickable: true }}
+              autoplay={{ delay: 3500, disableOnInteraction: false }}
+              className="rounded-2xl overflow-hidden aspect-square"
+            >
+              {product.slideImages.map((src, i) => (
+                <SwiperSlide key={i}>
+                  <div className="relative aspect-square">
+                    <Image
+                      src={src}
+                      alt={`${product.title} ${i + 1}`}
+                      fill
+                      className="object-cover"
+                      priority={i === 0}
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          ) : (
+            <div className="relative aspect-square">
+              <Image
+                src={product.src || "/images/grape_test.png"}
+                alt={product.title}
+                fill
+                className="object-cover rounded-2xl"
+                priority
+              />
+            </div>
+          )}
         </div>
 
         {/* 상품 정보 */}

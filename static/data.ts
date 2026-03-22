@@ -193,13 +193,19 @@ export const slideData = [
 
 export const grapeProducts = [
   {
-    id: 2,
+    id: 1,
     title: "금향포도 1.5kg",
     price: 35000,
     discount: 10,
     category: "금향포도",
     description: "황금빛 당도 높은 금향포도입니다.",
     src: "/images/gumhang_2.jpg",
+    slideImages: [
+      "/images/gumhang_slide_1.jpeg",
+      "/images/gumhang_slide_2.jpg",
+      "/images/gumhang_slide_3.jpg",
+      "/images/gumhang_slide_4.jpg",
+    ],
     detailImages: [
       "/images/gumhang_detail_1.jpeg",
       "/images/gumhang_detail_2.jpeg",
@@ -210,7 +216,7 @@ export const grapeProducts = [
     productPicture: null,
   },
   {
-    id: 1,
+    id: 2,
     title: "슈팅스타포도 1.5kg",
     price: 28000,
     discount: 0,
